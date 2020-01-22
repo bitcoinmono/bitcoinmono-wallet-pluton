@@ -54,7 +54,7 @@ jobs:
           path: ./release
 
       - name: Upload to GH Release
-        if: github.event_name == 'release' && github.repository == 'turtlecoin/turtle-wallet-proton'
+        if: github.event_name == 'release' && github.repository == 'bitcoinmono/bitcoinmono-wallet-proton'
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
