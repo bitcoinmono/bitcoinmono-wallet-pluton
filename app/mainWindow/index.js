@@ -20,7 +20,7 @@ import iConfig from './constants/config';
 import AutoUpdater from './wallet/autoUpdater';
 import LoginCounter from './wallet/loginCounter';
 import { uiType } from './utils/utils';
-import ProtonConfig from './wallet/protonConfig';
+import PlutonConfig from './wallet/plutonConfig';
 
 export function savedInInstallDir(savePath: string) {
   const programDirectory = path.resolve(remote.app.getAppPath(), '../../');
@@ -38,8 +38,8 @@ export function savedInInstallDir(savePath: string) {
 const homedir = os.homedir();
 
 export const directories = [
-  `${homedir}/.protonwallet`,
-  `${homedir}/.protonwallet/logs`
+  `${homedir}/.bitcoinmono-wallet`,
+  `${homedir}/.bitcoinmono-wallet/logs`
 ];
 
 export const il8n = new LocalizedStrings({
@@ -55,12 +55,12 @@ export let configManager = null;
 export const eventEmitter = new EventEmitter();
 eventEmitter.setMaxListeners(6);
 
-export const updater = new AutoUpdater();
-updater.getLatestVersion();
+// export const updater = new AutoUpdater();
+// updater.getLatestVersion();
 
 export let loginCounter = new LoginCounter();
 
-remote.app.setAppUserModelId('wallet.proton.extra');
+remote.app.setAppUserModelId('io.bitcoinmono.wallet');
 
 log.debug(`Proton wallet started...`);
 
@@ -141,7 +141,7 @@ ipcRenderer.on('fromMain', (event: Electron.IpcRendererEvent, message: any) => {
   const { data, messageType } = message;
   switch (messageType) {
     case 'config':
-      configManager = new ProtonConfig(data.config, data.configPath);
+      configManager = new PlutonConfig(data.config, data.configPath);
       break;
     default:
       log.info(data);
@@ -388,7 +388,7 @@ ipcRenderer.on('handleSaveAs', () => {
     defaultPath: remote.app.getPath('documents'),
     filters: [
       {
-        name: 'TurtleCoin Wallet File (v0)',
+        name: 'BitcoinMono Wallet File (v0)',
         extensions: ['wallet']
       }
     ]
@@ -428,17 +428,17 @@ eventEmitter.on('handleOpen', handleOpen);
 
 function handleAbout() {
   remote.shell.openExternal(
-    'http://github.com/turtlecoin/turtle-wallet-proton#readme'
+    `${Configure.GitHubRepo}/issues#readme`
   );
 }
 
 function handleHelp() {
-  remote.shell.openExternal('https://discord.gg/P7urHQs');
+  remote.shell.openExternal(`${Configure.DiscordURL}`)
 }
 
 function handleIssues() {
   remote.shell.openExternal(
-    'https://github.com/turtlecoin/turtle-wallet-proton/issues'
+    `${Configure.GitHubRepo}/issues`
   );
 }
 
@@ -633,7 +633,7 @@ function handleOpen() {
     defaultPath: remote.app.getPath('documents'),
     filters: [
       {
-        name: 'TurtleCoin Wallet File (v0)',
+        name: 'BitcoinMono Wallet File (v0)',
         extensions: ['wallet']
       }
     ]

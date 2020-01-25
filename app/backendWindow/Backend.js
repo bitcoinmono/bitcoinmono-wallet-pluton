@@ -11,6 +11,11 @@ import log from 'electron-log';
 import { ipcRenderer } from 'electron';
 import { createObjectCsvWriter } from 'csv-writer';
 import { atomicToHuman, convertTimestamp } from '../mainWindow/utils/utils';
+import Configure from '../Configure';
+
+export function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export default class Backend {
   notifications: boolean;
@@ -142,13 +147,16 @@ export default class Backend {
   }
 
   async sendTransaction(hash: string): void {
+    /* Wait for UI to load before blocking thread */
+    await delay(500);
+
     const result = await this.wallet.sendPreparedTransaction(hash);
 
     if (result.success) {
       console.log(
         `Sent transaction, hash ${
           result.transactionHash
-        }, fee ${prettyPrintAmount(result.fee)}`
+        }, fee ${prettyPrintAmount(result.fee, Configure)}`
       );
       const response = {
         status: 'SUCCESS',
@@ -158,6 +166,8 @@ export default class Backend {
       ipcRenderer.send('fromBackend', 'sendTransactionResponse', response);
       this.getTransactions(this.getLastTxAmountRequested() + 1);
     } else {
+      /* TODO: Optionally allow retries in case of network error? */
+      this.wallet.deletePreparedTransaction(hash);
       console.log(`Failed to send transaction: ${result.error.toString()}`);
       result.error.errorString = result.error.toString();
       const response = {
@@ -170,14 +180,34 @@ export default class Backend {
   }
 
   async prepareTransaction(transaction): void {
+    const [unlockedBalance, lockedBalance] = this.wallet.getBalance();
+
+    const networkHeight: number = this.daemon.getNetworkBlockCount();
+
+    const [feeAddress, nodeFee] = this.wallet.getNodeFee();
+
+    let txFee = Configure.minimumFee;
+
     const { address, amount, paymentID, sendAll } = transaction;
 
-    const destinations = [[address, sendAll ? 100000 : amount]];
+    const payments = [];
+
+    if (sendAll) {
+        payments.push([
+            address,
+            (networkHeight >= Configure.feePerByteHeight) ? 1 : (unlockedBalance - nodeFee - txFee), /* Amount does not matter for sendAll destination */
+        ]);
+    } else {
+        payments.push([
+            address,
+            amount,
+        ]);
+    }
 
     const result = await this.wallet.sendTransactionAdvanced(
-      destinations, // destinations
+      payments, // destinations
       undefined, // mixin
-      undefined, // fee
+      (networkHeight >= Configure.feePerByteHeight) ? undefined : {isFixedFee: true, fixedFee: txFee}, // fee
       paymentID, // paymentID
       undefined, // subwalletsToTakeFrom
       undefined, // changeAddress
@@ -188,16 +218,33 @@ export default class Backend {
     log.info(result);
 
     if (result.success) {
-      const [unlockedBalance, lockedBalance] = this.wallet.getBalance();
-      const balance = parseInt(unlockedBalance + lockedBalance, 10);
+      let actualAmount = amount;
+
+      if (networkHeight >= Configure.feePerByteHeight) {
+        txFee = result.fee;
+      }
+
+      if (sendAll) {
+        let transactionSum = 0;
+
+        /* We could just get the sum by calling getBalance.. but it's
+        * possibly just changed. Safest to iterate over prepared
+        * transaction and calculate it. */
+        for (const input of result.preparedTransaction.inputs) {
+          transactionSum += input.input.amount;
+        }
+        actualAmount = transactionSum
+                     - txFee
+                     - nodeFee;
+      }
       const response = {
         status: 'SUCCESS',
         hash: result.transactionHash,
         address,
         paymentID,
-        amount: sendAll ? balance : amount,
-        fee: result.fee,
-        nodeFee: this.wallet.getNodeFee()[1],
+        amount: actualAmount,
+        fee: txFee,
+        nodeFee: nodeFee,
         error: undefined
       };
       ipcRenderer.send('fromBackend', 'prepareTransactionResponse', response);
@@ -211,8 +258,8 @@ export default class Backend {
         address,
         paymentID,
         amount,
-        fee: result.fee,
-        nodeFee: this.wallet.getNodeFee()[1],
+        fee: txFee,
+        nodeFee: nodeFee,
         error: result.error
       };
       ipcRenderer.send('fromBackend', 'prepareTransactionResponse', response);
@@ -409,7 +456,7 @@ export default class Backend {
           body: `You've just received ${atomicToHuman(
             transaction.totalAmount(),
             true
-          )} BTCMZ.`
+          )} {Configure.ticker}.`
         });
       }
     });
@@ -473,7 +520,8 @@ export default class Backend {
     const [openWallet, error] = WalletBackend.openWalletFromFile(
       this.daemon,
       this.walletFile,
-      this.walletPassword
+      this.walletPassword,
+      Configure
     );
     if (!error) {
       this.walletInit(openWallet);

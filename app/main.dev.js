@@ -1,4 +1,5 @@
 // Copyright (C) 2019 ExtraHash
+// Copyright (C) 2019, WrkzCoin
 //
 // Please see the included LICENSE file for more information.
 import path from 'path';
@@ -45,8 +46,8 @@ let backendReady = false;
 let configReady = false;
 
 const directories = [
-  `${homedir}/.protonwallet`,
-  `${homedir}/.protonwallet/logs`
+  `${homedir}/.bitcoinmono-wallet`,
+  `${homedir}/.bitcoinmono-wallet/logs`
 ];
 
 const [programDirectory] = directories;
@@ -99,7 +100,7 @@ if (fs.existsSync(`${programDirectory}/addressBook.json`)) {
   fs.writeFileSync(`${programDirectory}/addressBook.json`, '[]');
 }
 
-const daemonLogFile = path.resolve(directories[1], 'TurtleCoind.log');
+const daemonLogFile = path.resolve(directories[1], 'BitcoinMonod.log');
 const backendLogFile = path.resolve(directories[1], 'wallet-backend.log');
 fs.closeSync(fs.openSync(daemonLogFile, 'w'));
 
@@ -220,7 +221,7 @@ app.on('ready', async () => {
   await installExtensions();
 
   mainWindow = new BrowserWindow({
-    title: `Proton v${version}`,
+    title: `BitcoinMono GUI Wallet v${version}`,
     useContentSize: true,
     show: false,
     width: 1250,

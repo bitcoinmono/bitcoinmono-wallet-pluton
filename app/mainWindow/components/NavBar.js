@@ -1,4 +1,5 @@
 // Copyright (C) 2019 ExtraHash
+// Copyright (C) 2019, WrkzCoin
 //
 // Please see the included LICENSE file for more information.
 
@@ -111,7 +112,7 @@ class NavBar extends Component<Props, State> {
                   <div className="navbar-item">
                     <img
                       src="images/icon_color_64x64.png"
-                      alt="proton wallet logo in green"
+                      alt="BitcoinMono wallet logo in green"
                     />
                   </div>
                 </div>

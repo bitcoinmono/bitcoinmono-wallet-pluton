@@ -1,22 +1,37 @@
-# Proton Wallet
+# BTCMZ Pluton Wallet
 
-![Download Count](https://img.shields.io/github/downloads/bitcoinmono/bitcoinmono-wallet-proton/total.svg)
-![Open Issue Count](https://img.shields.io/github/issues/bitcoinmono/bitcoinmono-wallet-proton)
-![License](https://img.shields.io/github/license/bitcoinmono/bitcoinmono-wallet-proton)
-![Version](https://img.shields.io/github/v/release/bitcoinmono/bitcoinmono-wallet-proton)
+![Download Count](https://img.shields.io/github/downloads/bitcoinmono/bitcoinmono-wallet-pluton/total.svg?include_prereleases)
+![Open Issue Count](https://img.shields.io/github/issues/bitcoinmono/bitcoinmono-wallet-pluton)
+![License](https://img.shields.io/github/license/bitcoinmono/bitcoinmono-wallet-pluton)
+![Version](https://img.shields.io/github/v/release/bitcoinmono/bitcoinmono-wallet-pluton?include_prereleases)
 
-<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-proton/development/screenshots/screenshot.png">
+### Master Build Status
+
+![Master Build Status](https://github.com/bitcoinmono/bitcoinmono-wallet-pluton/workflows/Build%20Pluton/badge.svg?branch=master)
+
+### Development Build Status
+
+![Development Build Status](https://github.com/bitcoinmono/bitcoinmono-wallet-pluton/workflows/Build%20Pluton/badge.svg?branch=development)
+
+<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/development/screenshots/screenshot-01.png">
+
+<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/development/screenshots/screenshot-02.png">
+
+<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/development/screenshots/screenshot-03.png">
+
+Pluton Wallet is a WrkzCoin wallet forked from <a hreft="https://github.com/turtlecoin/turtle-wallet-proton">Proton</a> using:
+
+- <a href="http://electron.atom.io/">Electron</a>
+- <a href="https://facebook.github.io/react/">React</a>
+- <a href="https://github.com/turtlecoin/turtlecoin-wallet-backend-js">Turtlecoin-Wallet-Backend-JS</a>
+- <a href="https://github.com/reactjs/redux">Redux</a>
+- <a href="https://github.com/reactjs/react-router">React Router</a>
+- <a href="http://webpack.github.io/docs/">Webpack</a>
+- and <a href="https://github.com/gaearon/react-hot-loader">React Hot Loader</a>.
+
 <p>
-  Proton Wallet is a BitcoinMono wallet that uses <a href="http://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, <a href="https://github.com/bitcoinmono/bitcoinmonocoin-wallet-backend-js">BitcoinMono-Wallet-Backend-JS</a>, <a href="https://github.com/reactjs/redux">Redux</a>, <a href="https://github.com/reactjs/react-router">React Router</a>, <a href="http://webpack.github.io/docs/">Webpack</a> and <a href="https://github.com/gaearon/react-hot-loader">React Hot Loader</a>.
+  All of the code is released under the GPLv3 license. The icons in the ./resources and ./app/images folders from <a href="https://icons8.com/license">icons8.</a>
 </p>
-
-<p>
-  All of the code is released under the GPLv3 license. The icons in the ./resources and ./app/images folders, however, are not released under this license, rather they are maintained to be intellectual property of ExtraHash, and may not be used to represent the brand or identity of any other piece of software or group. See the included license file in ./resources/LICENSE and ./app/images/LICENSE for more details.
-</p>
-
-## Installing
-
-**Check out the full tutorial on how to install and use Proton at the [official TurtleCoin docs page](https://docs.turtlecoin.lol/guides/wallets/using-proton-wallet)!**
 
 ## Development Setup (All Platforms)
 
@@ -37,13 +52,13 @@ Tip: If you already have a different version of node.js installed besides 10.x, 
 First, clone the repo via git:
 
 ```bash
-git clone https://github.com/bitcoinmono/bitcoinmono-wallet-proton.git
+git clone https://github.com/bitcoinmono/bitcoinmono-wallet-pluton.git
 ```
 
 And then install the dependencies with yarn.
 
 ```bash
-$ cd turtle-wallet-proton
+$ cd bitcoinmono-wallet-pluton
 $ yarn
 ```
 
@@ -71,5 +86,7 @@ $ yarn package
 
 ## License
 
-© [ExtraHash](https://github.com/ExtraHash)
+© 2019-2020, [ExtraHash](https://github.com/ExtraHash)
+© 2019-2020, [WrkzCoin](https://github.com/wrkzcoin/wrkz-wallet-pluton)
+© 2020, [Bitcoinmono](https://github.com/bitcoinmono/bitcoinmono-wallet-pluton)
 See included License file for more details.
