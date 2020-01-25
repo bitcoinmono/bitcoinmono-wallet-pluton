@@ -5,14 +5,6 @@
 ![License](https://img.shields.io/github/license/bitcoinmono/bitcoinmono-wallet-pluton)
 ![Version](https://img.shields.io/github/v/release/bitcoinmono/bitcoinmono-wallet-pluton?include_prereleases)
 
-### Master Build Status
-
-![Master Build Status](https://github.com/bitcoinmono/bitcoinmono-wallet-pluton/workflows/Build%20Pluton/badge.svg?branch=master)
-
-### Development Build Status
-
-![Development Build Status](https://github.com/bitcoinmono/bitcoinmono-wallet-pluton/workflows/Build%20Pluton/badge.svg?branch=development)
-
 <img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/development/screenshots/screenshot-01.png">
 
 <img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/development/screenshots/screenshot-02.png">
