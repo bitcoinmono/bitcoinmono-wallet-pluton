@@ -5,11 +5,11 @@
 ![License](https://img.shields.io/github/license/bitcoinmono/bitcoinmono-wallet-pluton)
 ![Version](https://img.shields.io/github/v/release/bitcoinmono/bitcoinmono-wallet-pluton?include_prereleases)
 
-<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/development/screenshots/screenshot-01.png">
+<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/master/screenshots/screenshot-01.png">
 
-<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/development/screenshots/screenshot-02.png">
+<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/master/screenshots/screenshot-02.png">
 
-<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/development/screenshots/screenshot-03.png">
+<img src="https://raw.githubusercontent.com/bitcoinmono/bitcoinmono-wallet-pluton/master/screenshots/screenshot-03.png">
 
 Pluton Wallet is a WrkzCoin wallet forked from <a hreft="https://github.com/turtlecoin/turtle-wallet-proton">Proton</a> using:
 
