@@ -20,7 +20,7 @@ import iConfig from './constants/config';
 import AutoUpdater from './wallet/autoUpdater';
 import LoginCounter from './wallet/loginCounter';
 import { uiType } from './utils/utils';
-import PlutonConfig from './wallet/plutonConfig';
+import ProtonConfig from './wallet/protonConfig';
 
 export function savedInInstallDir(savePath: string) {
   const programDirectory = path.resolve(remote.app.getAppPath(), '../../');
@@ -141,7 +141,7 @@ ipcRenderer.on('fromMain', (event: Electron.IpcRendererEvent, message: any) => {
   const { data, messageType } = message;
   switch (messageType) {
     case 'config':
-      configManager = new PlutonConfig(data.config, data.configPath);
+      configManager = new ProtonConfig(data.config, data.configPath);
       break;
     default:
       log.info(data);
@@ -155,6 +155,9 @@ ipcRenderer.on(
     const { data, messageType } = message;
 
     switch (messageType) {
+      case 'authenticationError':
+        handleAuthenticationError(data);
+        break;
       case 'prepareTransactionResponse':
         handlePrepareTransactionResponse(data);
         break;
@@ -319,6 +322,19 @@ function handleSaveWalletResponse(response: any) {
   }
 }
 
+function handleAuthenticationError(error: any) {
+  const message = (
+    <div>
+      <center>
+        <p className="title has-text-danger">Wallet Open Error!</p>
+      </center>
+      <br />
+      <p className={`subtitle ${textColor}`}>{error.errorString}</p>
+    </div>
+  );
+  eventEmitter.emit('openModal', message, 'OK', null, null);
+}
+
 function handlePasswordChangeResponse(response: any) {
   const { status, error } = response;
   if (status === 'SUCCESS') {
@@ -428,17 +444,17 @@ eventEmitter.on('handleOpen', handleOpen);
 
 function handleAbout() {
   remote.shell.openExternal(
-    `${Configure.GitHubRepo}/issues#readme`
+    'http://github.com/turtlecoin/bitcoinmono-wallet#readme'
   );
 }
 
 function handleHelp() {
-  remote.shell.openExternal(`${Configure.DiscordURL}`)
+  remote.shell.openExternal('https://discord.gg/4F8pjEK');
 }
 
 function handleIssues() {
   remote.shell.openExternal(
-    `${Configure.GitHubRepo}/issues`
+    'https://github.com/turtlecoin/bitcoinmono-wallet/issues'
   );
 }
 

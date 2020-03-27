@@ -15,7 +15,6 @@ import {
   atomicToHuman,
   convertTimestamp
 } from '../utils/utils';
-import Configure from '../../Configure';
 
 let displayedTransactionCount: number = 50;
 
@@ -112,7 +111,7 @@ export default class Home extends Component<Props, State> {
     const hash = event.target.value;
 
     remote.shell.openExternal(
-      `${Configure.ExplorerURL}/?hash=${encodeURIComponent(hash)}#blockchain_transaction`
+      `https://explorer.bitcoinmono.io/?search=${encodeURIComponent(hash)}`
     );
   };
 
@@ -267,7 +266,7 @@ export default class Home extends Component<Props, State> {
                         {tx[2] < 0 && (
                           <td>
                             <p className="has-text-danger has-text-right">
-                              {displayCurrency === Configure.ticker &&
+                              {displayCurrency === 'BTCMZ' &&
                                 atomicToHuman(tx[2], true)}
                               {displayCurrency === 'fiat' &&
                                 symbolLocation === 'prefix' &&
@@ -294,7 +293,7 @@ export default class Home extends Component<Props, State> {
                         {tx[2] > 0 && (
                           <td>
                             <p className="has-text-right">
-                              {displayCurrency === Configure.ticker &&
+                              {displayCurrency === 'BTCMZ' &&
                                 atomicToHuman(tx[2], true)}
                               {displayCurrency === 'fiat' &&
                                 symbolLocation === 'prefix' &&
@@ -315,7 +314,7 @@ export default class Home extends Component<Props, State> {
                         )}
                         <td>
                           <p className="has-text-right">
-                            {displayCurrency === Configure.ticker &&
+                            {displayCurrency === 'BTCMZ' &&
                               atomicToHuman(tx[3], true)}
                             {displayCurrency === 'fiat' &&
                               symbolLocation === 'prefix' &&
@@ -378,7 +377,7 @@ export default class Home extends Component<Props, State> {
                                     {tx[1]} <br />
                                     {tx[5] !== '' ? tx[5] : 'none'}
                                     <br />
-                                    {atomicToHuman(tx[7], true)} {Configure.ticker}
+                                    {atomicToHuman(tx[7], true)} BTCMZ
                                     <br />
                                     <p
                                       className={
@@ -387,7 +386,7 @@ export default class Home extends Component<Props, State> {
                                           : ''
                                       }
                                     >
-                                      {atomicToHuman(tx[2], true)} {Configure.ticker}
+                                      {atomicToHuman(tx[2], true)} BTCMZ
                                     </p>
                                     <br />
                                     <br />

@@ -1,5 +1,4 @@
 // Copyright (C) 2019 ExtraHash
-// Copyright (C) 2019, WrkzCoin
 //
 // Please see the included LICENSE file for more information.
 import { app, Menu, shell, BrowserWindow } from 'electron';
@@ -7,7 +6,6 @@ import log from 'electron-log';
 import LocalizedStrings from 'react-localization';
 import npmPackage from '../package.json';
 import { messageRelayer } from './main.dev';
-import Configure from './Configure';
 
 export const il8n = new LocalizedStrings({
   // eslint-disable-next-line global-require
@@ -57,7 +55,7 @@ export default class MenuBuilder {
           label: `${il8n.about} ${productName}`,
           click: () => {
             shell.openExternal(
-              `${Configure.GitHubRepo}/issues#readme`
+              'http://github.com/bitcoinmono/bitcoinmono-wallet#readme'
             );
           }
         },
@@ -243,14 +241,14 @@ export default class MenuBuilder {
         {
           label: il8n.support,
           click() {
-            shell.openExternal(`${Configure.DiscordURL}`);
+            shell.openExternal('https://discord.gg/4F8pjEK');
           }
         },
         {
           label: il8n.report_bug,
           click() {
             shell.openExternal(
-              `${Configure.GitHubRepo}/issues`
+              'https://github.com/bitcoinmono/bitcoinmono-wallet/issues'
             );
           }
         },
@@ -258,7 +256,7 @@ export default class MenuBuilder {
           label: il8n.feature_request,
           click() {
             shell.openExternal(
-              `${Configure.GitHubRepo}/issues`
+              'https://github.com/bitcoinmono/bitcoinmono-wallet/issues'
             );
           }
         }
@@ -463,14 +461,14 @@ export default class MenuBuilder {
           {
             label: il8n.support,
             click: () => {
-              shell.openExternal(`${Configure.DiscordURL}`);
+              shell.openExternal('https://discord.gg/4F8pjEK');
             }
           },
           {
             label: il8n.about,
             click: () => {
               shell.openExternal(
-                `${Configure.GitHubRepo}/issues#readme`
+                'http://github.com/bitcoinmono/bitcoinmono-wallet#readme'
               );
             }
           },
@@ -478,7 +476,7 @@ export default class MenuBuilder {
             label: il8n.report_bug,
             click: () => {
               shell.openExternal(
-                `${Configure.GitHubRepo}/issues`
+                'https://github.com/bitcoinmono/bitcoinmono-wallet/issues'
               );
             }
           },
@@ -486,7 +484,7 @@ export default class MenuBuilder {
             label: il8n.feature_request,
             click: () => {
               shell.openExternal(
-                `${Configure.GitHubRepo}/issues`
+                'https://github.com/bitcoinmono/bitcoinmono-wallet/issues'
               );
             }
           }

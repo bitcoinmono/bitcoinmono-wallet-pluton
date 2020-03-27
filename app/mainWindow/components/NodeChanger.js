@@ -1,14 +1,10 @@
 // Copyright (C) 2019 ExtraHash
-// Copyright (C) 2019, WrkzCoin
 //
 // Please see the included LICENSE file for more information.
 import React, { Component } from 'react';
-import Select from 'react-select';
 import { remote, ipcRenderer } from 'electron';
 import { il8n, eventEmitter, session, configManager } from '../index';
 import { uiType } from '../utils/utils';
-import NodeFee from './NodeFee';
-import Configure from '../../Configure';
 
 type Props = {
   darkMode: boolean
@@ -17,9 +13,7 @@ type Props = {
 type State = {
   connectionString: string,
   nodeChangeInProgress: boolean,
-  ssl: boolean,
-  Selected_Node: string,
-  node_NewFee: number
+  ssl: boolean
 };
 
 export default class NodeChanger extends Component<Props, State> {
@@ -31,74 +25,33 @@ export default class NodeChanger extends Component<Props, State> {
     super(props);
     this.state = {
       connectionString:
-        `${session.getDaemonConnectionInfo().host ? (session.getDaemonConnectionInfo().host + ':' +session.getDaemonConnectionInfo().port) : 'Connecting, please wait...'}`,
+        `${session.getDaemonConnectionInfo().host}:${
+          session.getDaemonConnectionInfo().port
+        }` || 'Connecting, please wait...',
       nodeChangeInProgress: false,
-      ssl: session.getDaemonConnectionInfo().ssl || false,
-      Selected_Node: Configure.defaultDaemon,
-      Fee: session.getNodeFee() || 0
+      ssl: session.getDaemonConnectionInfo().ssl || false
     };
     this.changeNode = this.changeNode.bind(this);
-    this.handleNodeInputChange = this.handleNodeInputChange.bind(this);
     this.resetConnectionString = this.resetConnectionString.bind(this);
     this.handleNewNode = this.handleNewNode.bind(this);
-    this.handleNodeListChange = this.handleNodeListChange.bind(this);
-    this.handleNodeChangeInProgress = this.handleNodeChangeInProgress.bind(
-      this
-    );
-    this.handleNodeChangeComplete = this.handleNodeChangeComplete.bind(this);
   }
 
   componentWillMount() {
     eventEmitter.on('gotDaemonConnectionInfo', this.handleNewNode);
-    eventEmitter.on('nodeChangeInProgress', this.handleNodeChangeInProgress);
-    eventEmitter.on('nodeChangeComplete', this.handleNodeChangeComplete);
-    eventEmitter.on('gotNodeFee', this.refreshNodeFee);
   }
 
   componentWillUnmount() {
     eventEmitter.off('gotDaemonConnectionInfo', this.handleNewNode);
-    eventEmitter.off('nodeChangeInProgress', this.handleNodeChangeInProgress);
-    eventEmitter.off('nodeChangeComplete', this.handleNodeChangeComplete);
-    eventEmitter.off('gotNodeFee', this.refreshNodeFee);
   }
-
-  refreshNodeFee = () => {
-    NodeFee.nodeFee = session.getNodeFee() || 0;
-  };
 
   resetConnectionString = () => {
     this.setState({
-      connectionString: `${session.getDaemonConnectionInfo().host ? (session.getDaemonConnectionInfo().host + ':' +session.getDaemonConnectionInfo().port) : 'Connecting, please wait...'}`,
+      connectionString: `${session.getDaemonConnectionInfo().host}:${
+        session.getDaemonConnectionInfo().port
+      }`,
       nodeChangeInProgress: false,
       ssl: session.getDaemonConnectionInfo().ssl
     });
-  };
-
-  handleNodeInputChange = (event: any) => {
-    this.setState({ connectionString: event.target.value.trim() });
-  };
-
-  handleNodeListChange = (selectedOptions, data) => {
-    this.setState({ selectedOptions });
-    this.setState({ connectionString: selectedOptions.label });
-  }
-
-  handleNodeChangeInProgress = () => {
-    this.setState({
-      nodeChangeInProgress: true,
-      ssl: undefined,
-      node_NewFee: undefined
-    });
-  };
-
-  handleNodeChangeComplete = () => {
-    this.setState({
-      nodeChangeInProgress: false,
-      connectionString: `${session.daemonHost}:${session.daemonPort}`,
-      ssl: session.daemon.ssl,
-      node_NewFee: session.getNodeFee() || 0
-    });
-    log.debug(`Network Fee ${session.getNodeFee()  || 0}`);
   };
 
   changeNode = () => {
@@ -112,7 +65,7 @@ export default class NodeChanger extends Component<Props, State> {
     // eslint-disable-next-line prefer-const
     let [host, port] = connectionString.split(':', 2);
     if (port === undefined) {
-      port = Configure.DefaultDaemonRPCPort;
+      port = 11358;
     }
     /* if the daemon entered is the same as the
     one we're connected to, don't do anything */
@@ -145,6 +98,10 @@ export default class NodeChanger extends Component<Props, State> {
     }
   };
 
+  findNode = () => {
+    remote.shell.openExternal('https://btcmz-nodes.bot.tips/list');
+  };
+
   handleNewNode = () => {
     this.resetConnectionString();
   };
@@ -152,15 +109,9 @@ export default class NodeChanger extends Component<Props, State> {
   render() {
     const { darkMode } = this.props;
     const { textColor, linkColor } = uiType(darkMode);
-    const {
-      nodeChangeInProgress,
-      connectionString,
-      ssl,
-	  Selected_Node,
-	  node_NewFee
-    } = this.state;
+    const { nodeChangeInProgress, connectionString, ssl } = this.state;
     return (
-      <form onSubmit={this.changeNode}>
+      <div>
         <p className={`has-text-weight-bold ${textColor}`}>
           Remote Node (node:port)
         </p>
@@ -198,7 +149,6 @@ export default class NodeChanger extends Component<Props, State> {
                 className="input"
                 type="text"
                 placeholder="connecting..."
-                onChange={this.handleNodeInputChange}
               />
             )}
             {nodeChangeInProgress === true && (
@@ -206,18 +156,18 @@ export default class NodeChanger extends Component<Props, State> {
                 <i className="fas fa-sync fa-spin" />
               </span>
             )}
-			<br />
-			<br />
-			<p className={`has-text-weight-bold ${textColor}`}>
-			  Select a node:
-			</p>
-			<div style={{width: '350px'}}>
-			<Select
-			  value={this.state.selectedOptions}
-			  onChange={this.handleNodeListChange}
-			  options={session.daemons}
-			/>
-			</div>
+            <p className="help">
+              <a
+                onClick={this.findNode}
+                onKeyPress={this.findNode}
+                role="button"
+                tabIndex={0}
+                className={linkColor}
+                onMouseDown={event => event.preventDefault()}
+              >
+                {il8n.find_node}
+              </a>
+            </p>
           </div>
           {nodeChangeInProgress === true && (
             <div className="control">
@@ -240,7 +190,7 @@ export default class NodeChanger extends Component<Props, State> {
             </div>
           )}
         </div>
-      </form>
+      </div>
     );
   }
 }

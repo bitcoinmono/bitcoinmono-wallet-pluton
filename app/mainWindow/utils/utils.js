@@ -1,8 +1,6 @@
 // Copyright (C) 2019 ExtraHash
 //
 // Please see the included LICENSE file for more information.
-import Configure from '../../Configure';
-
 export function uiType(darkMode: boolean) {
   const backgroundColor = darkMode
     ? 'has-background-dark'
@@ -67,9 +65,9 @@ export function formatLikeCurrency(x: number) {
 
 export function atomicToHuman(x: number, prettyPrint?: boolean) {
   if (prettyPrint || false) {
-    return `${formatLikeCurrency((x / (10**Configure.decimalPlaces)).toFixed(Configure.decimalPlaces))}`;
+    return `${formatLikeCurrency((x / 10000).toFixed(4))}`;
   }
-  return x / (10**Configure.decimalPlaces);
+  return x / 10000;
 }
 
 export function convertTimestamp(timestamp: Date) {

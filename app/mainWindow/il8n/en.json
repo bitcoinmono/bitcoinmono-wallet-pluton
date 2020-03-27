@@ -46,6 +46,7 @@
   "enable_close_to_tray": "Enable close to tray",
   "error_opening_wallet": "Your wallet did not open successfully. Try again.",
   "exported_csv": "Your transactions were successfully exported to",
+  "find_node": "Find node...",
   "generate_payment_id": "Generate Random Payment ID",
   "has_been_rewound_beginning": "Your wallet has been rewound to block",
   "has_been_rewound_end": ", and will sync again from there.",
@@ -126,10 +127,10 @@
   "total_with_fees": "Total with Fees",
   "total_with_fees_input_placeholder": "The total amount including fees",
   "BTCMZ": "BTCMZ",
-  "uncomfirmed_tx_60_sec_confirm": "This transaction is unconfirmed. Should be confirmed within 50 seconds!",
+  "uncomfirmed_tx_30_sec_confirm": "This transaction is unconfirmed. Should be confirmed within 50 seconds!",
   "unconfirmed": "Unconfirmed",
   "unlock": "Unlock",
   "update_required": "Update Required!",
   "wallet": "Wallet",
-  "welcome_to_pluton": "Welcome to BitcoinMono!"
+  "welcome_to_proton": "Welcome to BitcoinMono!"
 }

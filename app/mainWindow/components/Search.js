@@ -24,7 +24,6 @@ import {
 } from '../index';
 import routes from '../constants/routes';
 import settings from '../constants/settings';
-import Configure from '../../Configure';
 
 type Props = {
   query: string
@@ -159,7 +158,7 @@ export default class Search extends Component<Props, States> {
     const { query } = this.state;
 
     remote.shell.openExternal(
-      `${Configure.ExplorerURL}/?hash=${encodeURIComponent(query)}`
+      `https://explorer.bitcoinmono.io/?search=${encodeURIComponent(query)}`
     );
   };
 
@@ -167,7 +166,7 @@ export default class Search extends Component<Props, States> {
     const hash = event.target.value;
 
     remote.shell.openExternal(
-      `${Configure.ExplorerURL}/?hash=${encodeURIComponent(hash)}#blockchain_transaction`
+      `https://explorer.bitcoinmono.io/?search=${encodeURIComponent(hash)}`
     );
   };
 
@@ -438,7 +437,7 @@ export default class Search extends Component<Props, States> {
                           {amount < 0 && (
                             <td>
                               <p className="has-text-danger has-text-right">
-                                {displayCurrency === Configure.ticker &&
+                                {displayCurrency === 'BTCMZ' &&
                                   atomicToHuman(amount, true)}
                                 {displayCurrency === 'fiat' &&
                                   symbolLocation === 'prefix' &&
@@ -469,7 +468,7 @@ export default class Search extends Component<Props, States> {
                           {amount > 0 && (
                             <td>
                               <p className="has-text-right">
-                                {displayCurrency === Configure.ticker &&
+                                {displayCurrency === 'BTCMZ' &&
                                   atomicToHuman(amount, true)}
                                 {displayCurrency === 'fiat' &&
                                   symbolLocation === 'prefix' &&
@@ -544,7 +543,7 @@ export default class Search extends Component<Props, States> {
                                       {hash} <br />
                                       {paymentID !== '' ? paymentID : 'none'}
                                       <br />
-                                      {atomicToHuman(fee, true)} Configure.ticker
+                                      {atomicToHuman(fee, true)} BTCMZ
                                       <br />
                                       <p
                                         className={
@@ -553,7 +552,7 @@ export default class Search extends Component<Props, States> {
                                             : ''
                                         }
                                       >
-                                        {atomicToHuman(amount, true)} Configure.ticker
+                                        {atomicToHuman(amount, true)} BTCMZ
                                       </p>
                                       <br />
                                       <br />

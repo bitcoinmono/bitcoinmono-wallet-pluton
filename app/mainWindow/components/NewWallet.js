@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
 import { clipboard, remote } from 'electron';
-import Configure from '../../Configure';
 import log from 'electron-log';
 import jdenticon from 'jdenticon';
 import { WalletBackend, Daemon } from 'turtlecoin-wallet-backend';
@@ -33,8 +32,8 @@ export default class NewWallet extends Component<Props, State> {
     this.state = {
       darkMode: config.darkMode,
       newWallet: WalletBackend.createWallet(
-        Configure.defaultDaemon,
-        Configure),
+        new Daemon('btcmz.bot.tips', 443)
+      ),
       activePage: 'generate',
       password: '',
       confirmPassword: '',
@@ -136,10 +135,9 @@ export default class NewWallet extends Component<Props, State> {
     if (currentPageNumber === 4) {
       // import the seed so we can confirm it works
       const [confirmWallet, err] = WalletBackend.importWalletFromSeed(
-        Configure.defaultDaemon,
+        new Daemon('btcmz.bot.tips', 443),
         100000,
-        confirmSeed,
-        Configure
+        confirmSeed
       );
 
       // the seed wasn't valid

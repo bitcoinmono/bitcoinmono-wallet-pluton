@@ -24,7 +24,6 @@ import BottomBar from './BottomBar';
 import Redirector from './Redirector';
 import { uiType, atomicToHuman, search } from '../utils/utils';
 import donateInfo from '../constants/donateInfo.json';
-import Configure from '../../Configure';
 
 type Props = {
   uriAddress?: string,
@@ -232,12 +231,7 @@ export default class Send extends Component<Props, State> {
     if (messageType === 'prepareTransactionResponse') {
       eventEmitter.emit('transactionCancel');
       if (data.status === 'SUCCESS') {
-        let networkHeight = session.getNetworkBlockHeight();
-        let txFee = Configure.minimumFee;
         const { address, paymentID, amount, fee, nodeFee, hash } = data;
-        if (networkHeight >= Configure.feePerByteHeight) {
-          txFee = fee;
-        }
         session.setPreparedTransactionHash(hash);
         const modalMessage = (
           <div>
@@ -253,17 +247,17 @@ export default class Send extends Component<Props, State> {
             <p className={`subtitle ${textColor}`}>
               <b>Total Amount: (includes fees)</b>
               <br />
-              {atomicToHuman(amount + nodeFee + txFee, true)} {Configure.ticker}
+              {atomicToHuman(amount + nodeFee + fee, true)} BTCMZ
             </p>
             <p className={`subtitle ${textColor}`}>
               <b>Fee:</b>
               <br />
-              {atomicToHuman(nodeFee + txFee, true)} {Configure.ticker}
+              {atomicToHuman(nodeFee + fee, true)} BTCMZ
               {nodeFee > 0 &&
                 ` (including a node fee of ${atomicToHuman(
                   nodeFee,
                   true
-                )} ${Configure.ticker})`}
+                )} BTCMZ)`}
             </p>{' '}
             {paymentID !== '' && (
               <p className={`subtitle ${textColor}`}>
@@ -309,12 +303,12 @@ export default class Send extends Component<Props, State> {
 
     const sufficientFunds = sendAll
       ? true
-      : (session.getUnlockedBalance() + session.getLockedBalance()) / (10 ** Configure.decimalPlaces) >=
+      : (session.getUnlockedBalance() + session.getLockedBalance()) / 10000 >=
         Number(enteredAmount);
 
     const sufficientUnlockedFunds = sendAll
       ? true
-      : session.getUnlockedBalance() > Number(enteredAmount) / (10 ** Configure.decimalPlaces);
+      : session.getUnlockedBalance() > Number(enteredAmount) / 10000;
 
     if (!sendAll && (sendToAddress === '' || enteredAmount === '')) {
       return;
@@ -363,12 +357,14 @@ export default class Send extends Component<Props, State> {
     const transactionData = {
       address: sendToAddress,
       amount:
-        displayCurrency === Configure.ticker
-          ? Number(enteredAmount) * (10 ** Configure.decimalPlaces)
-          : (Number(enteredAmount) * (10 ** Configure.decimalPlaces)) / fiatPrice,
+        displayCurrency === 'BTCMZ'
+          ? Number(enteredAmount) * 10000
+          : parseInt((Number(enteredAmount) * 10000) / fiatPrice, 10),
       paymentID,
       sendAll
     };
+
+    log.info(transactionData);
 
     ipcRenderer.send(
       'fromFrontend',
@@ -384,7 +380,7 @@ export default class Send extends Component<Props, State> {
 
     await this.setState({
       selectedContact: { label: sendToAddress, value: sendToAddress },
-      enteredAmount: String(amount / (10 ** Configure.decimalPlaces)),
+      enteredAmount: String(amount / 10000),
       sendToAddress,
       paymentID,
       sendAll: false
@@ -420,14 +416,14 @@ export default class Send extends Component<Props, State> {
     const { unlockedBalance, fiatPrice, displayCurrency, nodeFee } = this.state;
 
     const totalAmount =
-      unlockedBalance - parseInt(nodeFee, 10) <= 0 ? 0 : unlockedBalance;
+      unlockedBalance - 10 - parseInt(nodeFee, 10) <= 0 ? 0 : unlockedBalance;
     const enteredAmount =
-      unlockedBalance - parseInt(nodeFee, 10) <= 0
+      unlockedBalance - 10 - parseInt(nodeFee, 10) <= 0
         ? 0
-        : totalAmount - parseInt(nodeFee, 10);
+        : totalAmount - 10 - parseInt(nodeFee, 10);
     this.setState({
       enteredAmount:
-        displayCurrency === Configure.ticker
+        displayCurrency === 'BTCMZ'
           ? atomicToHuman(enteredAmount, false).toString()
           : atomicToHuman(enteredAmount * fiatPrice, false).toString()
     });
@@ -584,7 +580,7 @@ export default class Send extends Component<Props, State> {
                           : `How much to send (eg. ${
                               displayCurrency === 'fiat'
                                 ? exampleAmount
-                                : '1000 ' + Configure.ticker
+                                : '10000 BTCMZ'
                             })`
                       }
                       value={enteredAmount}
