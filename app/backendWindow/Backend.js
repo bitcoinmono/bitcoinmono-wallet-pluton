@@ -14,6 +14,10 @@ import { createObjectCsvWriter } from 'csv-writer';
 import { atomicToHuman, convertTimestamp } from '../mainWindow/utils/utils';
 import Configure from '../Configure';
 
+export function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export default class Backend {
   notifications: boolean;
 
@@ -144,13 +148,16 @@ export default class Backend {
   }
 
   async sendTransaction(hash: string): void {
+    /* Wait for UI to load before blocking thread */
+    await delay(500);
+
     const result = await this.wallet.sendPreparedTransaction(hash);
 
     if (result.success) {
       console.log(
         `Sent transaction, hash ${
           result.transactionHash
-        }, fee ${prettyPrintAmount(result.fee)}`
+        }, fee ${prettyPrintAmount(result.fee, Configure))}`
       );
       const response = {
         status: 'SUCCESS',
@@ -160,6 +167,8 @@ export default class Backend {
       ipcRenderer.send('fromBackend', 'sendTransactionResponse', response);
       this.getTransactions(this.getLastTxAmountRequested() + 1);
     } else {
+      /* TODO: Optionally allow retries in case of network error? */
+      this.wallet.deletePreparedTransaction(hash);
       console.log(`Failed to send transaction: ${result.error.toString()}`);
       result.error.errorString = result.error.toString();
       const response = {
