@@ -12,6 +12,7 @@ import log from 'electron-log';
 import { ipcRenderer } from 'electron';
 import { createObjectCsvWriter } from 'csv-writer';
 import { atomicToHuman, convertTimestamp } from '../mainWindow/utils/utils';
+import Configure from '../Configure';
 
 export default class Backend {
   notifications: boolean;
@@ -474,7 +475,8 @@ export default class Backend {
     const [openWallet, error] = WalletBackend.openWalletFromFile(
       this.daemon,
       this.walletFile,
-      this.walletPassword
+      this.walletPassword,
+      Configure
     );
     if (!error) {
       this.walletInit(openWallet);
