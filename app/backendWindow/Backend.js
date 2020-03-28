@@ -151,6 +151,7 @@ export default class Backend {
     /* Wait for UI to load before blocking thread */
     await delay(500);
 
+    console.log("In process of sending tx with hash "+hash);
     const result = await this.wallet.sendPreparedTransaction(hash);
 
     if (result.success) {
