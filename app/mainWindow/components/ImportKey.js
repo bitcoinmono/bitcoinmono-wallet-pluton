@@ -11,6 +11,7 @@ import BottomBar from './BottomBar';
 import Redirector from './Redirector';
 import { uiType } from '../utils/utils';
 import { eventEmitter, reInitWallet, config } from '../index';
+import Configure from '../../Configure';
 
 type State = {
   darkMode: boolean,
@@ -136,7 +137,8 @@ export default class ImportKey extends Component<Props, State> {
         new Daemon('btcmz.bot.tips', 443),
         scanHeight === '' ? 0 : Number(scanHeight),
         privateViewKey,
-        privateSpendKey
+        privateSpendKey,
+        Configure
       );
 
       if (error) {

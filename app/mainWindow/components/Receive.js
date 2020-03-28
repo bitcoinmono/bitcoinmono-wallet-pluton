@@ -14,6 +14,7 @@ import NavBar from './NavBar';
 import BottomBar from './BottomBar';
 import Redirector from './Redirector';
 import { uiType } from '../utils/utils';
+import Configure from '../../Configure';
 
 type Props = {
   copyToClipboard: string => void
@@ -69,7 +70,8 @@ export default class Receive extends Component<Props, State> {
     const paymentID = specifiedID || crypto.randomBytes(32).toString('hex');
     const integratedAddress = createIntegratedAddress(
       session.getPrimaryAddress(),
-      paymentID
+      paymentID,
+	  Configure
     );
     this.setState({
       masterSwitch: true,

@@ -11,6 +11,7 @@ import BottomBar from './BottomBar';
 import Redirector from './Redirector';
 import { uiType } from '../utils/utils';
 import { eventEmitter, reInitWallet, config } from '../index';
+import Configure from '../../Configure';
 
 type State = {
   darkMode: boolean,
@@ -132,7 +133,8 @@ export default class Import extends Component<Props, State> {
       const [restoredWallet, error] = WalletBackend.importWalletFromSeed(
         new Daemon('btcmz.bot.tips', 443),
         scanHeight === '' ? 0 : Number(scanHeight),
-        mnemonicSeed
+        mnemonicSeed,
+        Configure
       );
 
       if (error) {
