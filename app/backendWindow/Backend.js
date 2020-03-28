@@ -172,6 +172,8 @@ export default class Backend {
   }
 
   async prepareTransaction(transaction): void {
+
+    let txFee = Configure.minimumFee;
     const { address, amount, paymentID, sendAll } = transaction;
 
     const destinations = [[address, sendAll ? 100000 : amount]];
@@ -179,7 +181,7 @@ export default class Backend {
     const result = await this.wallet.sendTransactionAdvanced(
       destinations, // destinations
       undefined, // mixin
-      undefined, // fee
+      {isFixedFee: true, fixedFee: txFee}, // fee
       paymentID, // paymentID
       undefined, // subwalletsToTakeFrom
       undefined, // changeAddress
