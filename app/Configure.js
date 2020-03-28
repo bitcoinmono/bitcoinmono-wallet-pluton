@@ -57,7 +57,7 @@ const Configure = new function() {
     /**
      * How often to check on locked transactions
      */
-    this.lockedTransactionsCheckInterval = 50 * 1000;
+    this.lockedTransactionsCheckInterval = 30 * 1000;
 
     /**
      * The amount of blocks to process per 'tick' of the mainloop. Note: too
