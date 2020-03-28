@@ -157,7 +157,7 @@ export default class Backend {
       console.log(
         `Sent transaction, hash ${
           result.transactionHash
-        }, fee ${prettyPrintAmount(result.fee, Configure))}`
+        }, fee ${prettyPrintAmount(result.fee, Configure)}`
       );
       const response = {
         status: 'SUCCESS',
