@@ -6816,9 +6816,9 @@ htmlparser2@^3.10.0, htmlparser2@^3.9.1:
     readable-stream "^3.1.1"
 
 http-cache-semantics@^4.0.0:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.0.3.tgz#495704773277eeef6e43f9ab2c2c7d259dda25c5"
-  integrity sha512-TcIMG3qeVLgDr1TEd2XvHaTnMPwYQUQMIBLy+5pLSDKYFc7UIqj39w8EGzZkaxoLv/l2K8HaI0t5AVA+YYgUew==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.1.tgz#abe02fcb2985460bf0323be664436ec3476a6d5a"
+  integrity sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==
 
 http-deceiver@^1.2.7:
   version "1.2.7"
@@ -13379,10 +13379,10 @@ turtlecoin-utils@1.0.20:
   optionalDependencies:
     turtlecoin-crypto "^3.1.3"
 
-turtlecoin-wallet-backend@^5.0.0:
+"turtlecoin-wallet-backend@https://github.com/bitcoinmono/turtlecoin-wallet-backend-js":
   version "5.0.4"
-  resolved "https://registry.yarnpkg.com/turtlecoin-wallet-backend/-/turtlecoin-wallet-backend-5.0.4.tgz#43f37719f56ec3184a3061d33434bda1f3a4856d"
-  integrity sha512-CvKOctuxDPHz4pwd/Lz3jHMjCXs31WweP5MKMELm6bY7ZSa14qWk+ZY1e3HLHO1x2bNsjzpZeCM5H5P20qgaRA==
+  uid "7e708910ff1637fcefb4370eba05bf3c0ecb681d"
+  resolved "https://github.com/bitcoinmono/turtlecoin-wallet-backend-js#7e708910ff1637fcefb4370eba05bf3c0ecb681d"
   dependencies:
     lodash "^4.17.15"
     object-sizeof "^1.5.2"
