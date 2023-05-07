@@ -11437,9 +11437,9 @@ replace-ext@1.0.0:
   integrity sha1-3mMSg3P8v3w8z6TeWkgMRaZ5WOs=
 
 replicator@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/replicator/-/replicator-1.0.3.tgz#c0b3ea31e749015bae5d52273f2ae35d541b87ef"
-  integrity sha512-WsKsraaM0x0QHy5CtzdgFXUxyowoBhyNkmPqmZShW6h+rOWnyT6Od3zRdTX9r616rAA6kDC9MKQGnSM/CJKfVQ==
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/replicator/-/replicator-1.0.5.tgz#f1e56df7e276a62afe80c2248b8ac03896f4708f"
+  integrity sha512-saxS4y7NFkLMa92BR4bPHR41GD+f/qoDAwD2xZmN+MpDXgibkxwLO2qk7dCHYtskSkd/bWS8Jy6kC5MZUkg1tw==
 
 request-promise-core@1.1.2:
   version "1.1.2"
@@ -13379,10 +13379,10 @@ turtlecoin-utils@1.0.20:
   optionalDependencies:
     turtlecoin-crypto "^3.1.3"
 
-turtlecoin-wallet-backend@^5.0.0:
+"turtlecoin-wallet-backend@https://github.com/bitcoinmono/turtlecoin-wallet-backend-js":
   version "5.0.4"
-  resolved "https://registry.yarnpkg.com/turtlecoin-wallet-backend/-/turtlecoin-wallet-backend-5.0.4.tgz#43f37719f56ec3184a3061d33434bda1f3a4856d"
-  integrity sha512-CvKOctuxDPHz4pwd/Lz3jHMjCXs31WweP5MKMELm6bY7ZSa14qWk+ZY1e3HLHO1x2bNsjzpZeCM5H5P20qgaRA==
+  uid "7e708910ff1637fcefb4370eba05bf3c0ecb681d"
+  resolved "https://github.com/bitcoinmono/turtlecoin-wallet-backend-js#7e708910ff1637fcefb4370eba05bf3c0ecb681d"
   dependencies:
     lodash "^4.17.15"
     object-sizeof "^1.5.2"
